@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import requests
+from mail_sender import SendMail
 
 response = requests.get(url="https://api.npoint.io/df923a4a07ef17cbdc3d")
 
@@ -23,6 +24,11 @@ def contact():
     if request.method == 'GET':
         return render_template("contactv2.html", h1=get_h1)
     else:
+        name = request.form["name"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+        message = request.form["message"]
+        SendMail(name=name, email=email, phone=phone, message=message)
         return render_template("contactv2.html", h1=post_h1)
 
 
